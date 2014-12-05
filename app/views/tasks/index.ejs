@@ -1,0 +1,13 @@
+<% include ../header %>
+
+<h1><%- title %></h1>
+
+<% if (tasks.length) { %>
+	<ul>
+		<% tasks.forEach(function (task) { %>
+			<li><%= task.title %></li>
+		<% }) %>
+	</ul>
+<% } %>
+
+<% include ../footer %>

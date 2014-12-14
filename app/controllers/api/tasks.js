@@ -1,5 +1,9 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Task = mongoose.model('Task');
+
+var API_PASSWORD = process.env.FEATUREDISCOVERER_PASSWORD;
 
 module.exports = {
 
@@ -21,10 +25,8 @@ module.exports = {
 	},
 
 	// Create new task
-	// curl -X POST -H "Content-Type: application/json" -d '{ "title": "My title", "description": "Bla bla bla", "reloadNeeded": false }' http://localhost:3002/api/tasks?password=M4EgsuY7PDZi
-	// curl -X POST -H "Content-Type: application/json" -d '{ "title": "Cool new feature!", "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a nunc. In ante metus, gravida vel, bibendum et, mollis vitae, ipsum. Sed leo nibh, pulvinar dignissim, pretium eget, mattis id, erat.", "authors": "Henric, Andres", "url": "http://placekitten.com", "imageUrl": "http://placekitten.com/g/300/300", "reloadNeeded": true, "priority": 2 }' http://localhost:3002/api/tasks?password=M4EgsuY7PDZi
 	create: function (req, res, next) {
-		if (req.query.password === 'M4EgsuY7PDZi') {
+		if (req.query.password === API_PASSWORD) {
 			var newTask = new Task(req.body);
 			newTask.save(function (err) {
 				if (err) {
@@ -40,16 +42,31 @@ module.exports = {
 		}
 	},
 
+	// Update task
+	update: function (req, res, next) {
+		Task.update(
+			{ _id: req.params.id },
+			req.body,
+			function (updateErr, numberAffected, rawResponse) {
+				if (updateErr) {
+					res.json(500, updateErr);
+				}
+				else {
+					res.json(200, 'Updated task ' + req.params.id);
+				}
+			}
+		);
+	},
+
 	// Delete task
-	// curl -X DELETE http://localhost:3002/api/tasks/5477a6f88906b9fc766c843e?password=M4EgsuY7PDZi
 	delete: function (req, res, next) {
-		if (req.query.password === 'M4EgsuY7PDZi') {
+		if (req.query.password === API_PASSWORD) {
 			var searchParams;
 			if (req.params.id === 'ALL') {
 				searchParams = {};
 			}
 			else {
-				{ _id: req.params.id }
+				searchParams = { _id: req.params.id }
 			}
 
 			Task.remove(
@@ -59,7 +76,7 @@ module.exports = {
 						res.json(500, taskErr);
 					}
 					else {
-						res.json(200, 'Deletion complete');
+						res.json(200, 'Deleted ' + numberAffected + ' tasks');
 					}
 				}
 			);

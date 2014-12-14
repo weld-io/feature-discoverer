@@ -17,4 +17,5 @@ var app = express();
 
 require('./config/express')(app, config);
 
+console.log('feature-discoverer running on http://localhost:' + (process.env.PORT || config.port));
 app.listen(process.env.PORT || config.port);

@@ -1,4 +1,4 @@
-// Example model
+'use strict';
 
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
@@ -8,10 +8,5 @@ var TaskSchema = new Schema({
 	description: String,
 	dateCreated: { type: Date, default: Date.now, index: true },
 });
-
-// TaskSchema.virtual('date')
-// 	.get(function(){
-// 		return this._id.getTimestamp();
-// 	});
 
 mongoose.model('Task', TaskSchema);

@@ -23,7 +23,7 @@ Get the user's task list:
 
 	curl http://localhost:3003/api/tasks?user=USERID
 
-(Note: USERID can be anything, e.g. an internal userId or a hashed email address)
+(Note: `USERID` can be anything, e.g. an internal userId or a hashed email address)
 
 Post a list of actions that the user has made:
 

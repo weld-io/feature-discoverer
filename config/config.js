@@ -32,7 +32,7 @@ var config = {
 			name: 'feature-discoverer'
 		},
 		port: 3000,
-		db: process.env.MONGOHQ_URL || 'mongodb://localhost/feature-discoverer-production'
+		db: process.env.MONGOLAB_URI || 'mongodb://localhost/feature-discoverer-production'
 
 	}
 

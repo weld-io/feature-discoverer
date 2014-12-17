@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 	// load all grunt tasks
 	require('load-grunt-tasks')(grunt);
 
-	var reloadPort = 35725;
+	var reloadPort = 35727;
 	var files;
 
 	grunt.initConfig({

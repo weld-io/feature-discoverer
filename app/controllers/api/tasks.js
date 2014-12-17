@@ -1,27 +1,31 @@
 'use strict';
 
+var _ = require('lodash');
 var mongoose = require('mongoose');
 var Task = mongoose.model('Task');
+var apiActionsController = require('./actions');
 
 var API_PASSWORD = process.env.FEATUREDISCOVERER_PASSWORD;
 
 module.exports = {
 
 	list: function (req, res, next) {
-		var searchQuery = {};
-		if (req.query.from) {
-			var currentTime = new Date();
-			searchQuery = { dateCreated: { "$gte": new Date(req.query.from), "$lt": currentTime } };
-		}
 
-		Task.find(searchQuery, null, { sort: {dateCreated: -1} }, function (err, tasks) {
-			if (err) {
-				return res.json(400, err);
-			}
-			else {
-				return res.json(tasks);
-			}
-		});
+		if (req.query.user) {
+			// User list
+			apiActionsController.create({ body: { actions: [{ name: 'null-task' }] }, query: req.query }, res, next);
+		}
+		else {
+			// Full list
+			Task.getOrderedList(function (err, tasks) {
+				if (err) {
+					res.json(400, err);
+				}
+				else {
+					res.json(tasks);
+				}
+			});
+		}
 	},
 
 	// Create new task
@@ -30,15 +34,15 @@ module.exports = {
 			var newTask = new Task(req.body);
 			newTask.save(function (err) {
 				if (err) {
-					return res.json(400, err);
+					res.json(400, err);
 				}
 				else {
-					return res.json(newTask);
+					res.json(newTask);
 				}
 			});
 		}
 		else {
-			return res.json(401, 'Unauthorized');
+			res.json(401, 'Unauthorized');
 		}
 	},
 
@@ -82,7 +86,7 @@ module.exports = {
 			);
 		}
 		else {
-			return res.json(401, 'Unauthorized');
+			res.json(401, 'Unauthorized');
 		}
 	}
 

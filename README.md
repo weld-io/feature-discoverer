@@ -37,9 +37,9 @@ See the master task list:
 
 Create new tasks for users to do:
 
-	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Draw two boxes", "position": 1, "actions": [{ "name": "Create element", "properties": { "type": "rectangle" } }, { "name": "Create element", "properties": { "type": "rectangle" } }] }' http://localhost:3003/api/tasks?password=MYPASSWORD
-	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Switch to phone layout", "position": 2, "actions": [{ "name": "Switch responsive view", "properties": { "mode": "phone" } }] }' http://localhost:3003/api/tasks?password=MYPASSWORD
-	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Edit design for phone layout", "position": 3, "actions": [{ "name": "Edit responsive breakpoint", "properties": { "breakpoint": "phone" } }] }' http://localhost:3003/api/tasks?password=MYPASSWORD
+	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Draw two boxes", "position": 1, "actions": [{ "name": "Create element", "properties": { "type": "rectangle" } }, { "name": "Create element", "properties": { "type": "rectangle" } }], "description": "Use the Box tool in the toolbar.", "elementSelector": "#tool_rectangle" }' http://localhost:3003/api/tasks?password=MYPASSWORD
+	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Switch to phone layout", "position": 2, "actions": [{ "name": "Switch responsive view", "properties": { "mode": "phone" } }], "description": "", "elementSelector": ".breakpoint-button.phone" }' http://localhost:3003/api/tasks?password=MYPASSWORD
+	curl -X POST -H "Content-Type: application/json" -d '{ "name": "Edit design for phone layout", "position": 3, "actions": [{ "name": "Edit responsive breakpoint", "properties": { "breakpoint": "phone" } }], "description": "Toggle the Editing all switch.", "elementSelector": ".responsive-breakpoints" }' http://localhost:3003/api/tasks?password=MYPASSWORD
 
 Update a task:
 

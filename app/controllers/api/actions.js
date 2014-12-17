@@ -9,13 +9,18 @@ var User = mongoose.model('User');
 var API_PASSWORD = process.env.FEATUREDISCOVERER_PASSWORD;
 
 var doesActionMatchTask = function (action, task, actionStep) {
-	// TODO: do property matching too (e.g. type="rectangle")
-	if (action.name === task.actions[actionStep - 1].name) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	var actionsMatch = (actionStep <= task.actions.length);
+	// Check if names match
+	var taskAction = task.actions[actionStep - 1];
+	if (action.name !== taskAction.name)
+		actionsMatch = false;
+	// Check if all properties match
+	for (var prop in taskAction.properties) {
+		// If Action lacks properties (but taskAction has), or has properties but values don't match
+		if ( !action.properties || (action.properties && action.properties[prop] !== taskAction.properties[prop]) )
+			actionsMatch = false;
+	};
+	return actionsMatch;
 };
 
 module.exports = {
@@ -35,6 +40,7 @@ module.exports = {
 					for (var t in tasks) {
 						// For each action...
 						var resultMasterTask = tasks[t].toObject();
+						resultMasterTask.slug = tasks[t].slug();
 						var resultUserTask = { name: tasks[t].name };
 						for (var a in req.body.actions) {
 							var action = req.body.actions[a];
@@ -57,13 +63,14 @@ module.exports = {
 							else {
 								// New task for user
 								if (doesActionMatchTask(action, tasks[t], 1)) {
-									user.usertasks.push({ name: tasks[t].name, progress: 1, originalTask: tasks[t]._id });
+									user.usertasks.push({ name: tasks[t].name, progress: 1, completed: (tasks[t].actions.length === 1 ? true : false), originalTask: tasks[t]._id });
 									resultUserTask = user.usertasks[user.usertasks.length - 1].toObject();
 									user.save(function (err) { });
 								}
 							}
 						};
 						// Update result list
+						resultUserTask = _.extend(resultMasterTask, resultUserTask);
 						resultUserTask.progress = resultUserTask.progress | 0;
 						resultUserTask.progressMax = resultMasterTask.actions.length;
 						resultUserTask.progressPercent = 100 * resultUserTask.progress / resultUserTask.progressMax;

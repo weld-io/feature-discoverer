@@ -6,16 +6,17 @@ var Schema = mongoose.Schema;
 // a Task consists of one or more Actions
 var Action = new Schema({
 	name: { type: String, required: true },
-	properties: {}
+	properties: {},
+	elementSelector: String
 });
 
 var TaskSchema = new Schema({
-	name: { type: String, required: true },
+	name: { type: String, required: true, unique: true },
 	position: Number,
 	description: String,
 	dateCreated: { type: Date, default: Date.now, index: true },
 	actions: [Action],
-	requiresTasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+	requiresTask: String, // Name of other tasks
 	elementSelector: String
 });
 

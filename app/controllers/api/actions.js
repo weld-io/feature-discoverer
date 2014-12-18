@@ -23,6 +23,16 @@ var doesActionMatchTask = function (action, task, actionStep) {
 	return actionsMatch;
 };
 
+var hasUserCompletedTask = function (user, taskName) {
+	var usertaskIndex = user.getUserTaskIndex({ name: taskName });
+	if (usertaskIndex !== undefined && user.usertasks[usertaskIndex].completed === true) {
+		return true;
+	}
+	else {
+		return false;
+	}
+};
+
 module.exports = {
 
 	// User has performed new actions
@@ -38,14 +48,12 @@ module.exports = {
 				Task.getOrderedList(function (err, tasks) {
 					// For each Task in Master Task List
 					for (var t in tasks) {
-						// For each action...
 						var resultMasterTask = tasks[t].toObject();
 						resultMasterTask.slug = tasks[t].slug();
 						var resultUserTask = { name: tasks[t].name };
+						// For each action...
 						for (var a in req.body.actions) {
 							var action = req.body.actions[a];
-							// 1) Go through UserTasks and update progress
-							// 2) Check if new Tasks are available, and add them to UserTasks
 							// If Task doesn't already exist in UserTasks and this action matches first Task.action, add it
 							var userTaskIndex = user.getUserTaskIndex(tasks[t]);
 							if (userTaskIndex !== undefined) {
@@ -71,10 +79,13 @@ module.exports = {
 						};
 						// Update result list
 						resultUserTask = _.extend(resultMasterTask, resultUserTask);
-						resultUserTask.progress = resultUserTask.progress | 0;
-						resultUserTask.progressMax = resultMasterTask.actions.length;
-						resultUserTask.progressPercent = 100 * resultUserTask.progress / resultUserTask.progressMax;
-						resultList.push(resultUserTask);
+						// Only show tasks that 1) doesn't require other task, or 2) user has completed required task
+						if (!resultUserTask.requiresTask || hasUserCompletedTask(user, resultUserTask.requiresTask)) {
+							resultUserTask.progress = resultUserTask.progress | 0;
+							resultUserTask.progressMax = resultMasterTask.actions.length;
+							resultUserTask.progressPercent = 100 * resultUserTask.progress / resultUserTask.progressMax;
+							resultList.push(resultUserTask);
+						}
 					}
 					// Results
 					res.json(200, resultList);

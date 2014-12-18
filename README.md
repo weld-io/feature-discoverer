@@ -29,7 +29,7 @@ Post a list of actions that the user has made:
 
 	curl -X POST -H "Content-Type: application/json" -d '{ "actions": [{ "name": "Login" }, { "name": "Create element", "properties": { "type": "rectangle" } }] }' http://localhost:3003/api/actions?user=USERID
 
-### Admin options
+### Administration: Master Task List
 
 See the master task list:
 
@@ -43,7 +43,7 @@ Create new tasks for users to do:
 
 Update a task:
 
-	curl -X PUT -H "Content-Type: application/json" -d '{ "name": "my_new_task", "redirectUrl": "https://duckduckgo.com" }' http://localhost:3003/api/tasks/548cbb2b1ad50708212193d8?password=MYPASSWORD
+	curl -X PUT -H "Content-Type: application/json" -d '{ "description": "Click a <a>link</a>." }' http://localhost:3003/api/tasks/5492905d47b6d9e33e4b4f45?password=MYPASSWORD
 
 Delete a specific task:
 
@@ -52,6 +52,12 @@ Delete a specific task:
 Delete all tasks:
 
 	curl -X DELETE http://localhost:3003/api/tasks/ALL?password=MYPASSWORD
+
+### Administration: User Status
+
+Delete one user:
+
+	curl -X DELETE http://localhost:3003/api/users/USERID?password=MYPASSWORD
 
 Delete all users and usertasks (i.e. clear state/progress but retain the master task list):
 

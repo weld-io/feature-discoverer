@@ -40,14 +40,14 @@ module.exports = {
 	// Update user
 	update: function (req, res, next) {
 		User.update(
-			{ _id: req.params.id },
+			{ userId: req.params.user },
 			req.body,
 			function (updateErr, numberAffected, rawResponse) {
 				if (updateErr) {
 					res.json(500, updateErr);
 				}
 				else {
-					res.json(200, 'Updated user ' + req.params.id);
+					res.json(200, 'Updated user ' + req.params.user);
 				}
 			}
 		);
@@ -61,7 +61,7 @@ module.exports = {
 				searchParams = {};
 			}
 			else {
-				searchParams = { _id: req.params.id }
+				searchParams = { userId: req.params.user }
 			}
 
 			User.remove(

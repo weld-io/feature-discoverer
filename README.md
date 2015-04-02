@@ -1,6 +1,6 @@
-# Feature Discoverer
+# Feature Discoverer / Tutorial Engine
 
-API service supporting an interactive guide that can help a user explore an application.
+API service supporting a tutorial/interactive guide that can help a user explore an application.
 
 ![Feature Discoverer in-app example](example.png)
 

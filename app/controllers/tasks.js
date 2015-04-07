@@ -6,7 +6,7 @@ var Task = mongoose.model('Task');
 module.exports = {
 
 	index: function (req, res, next) {
-		Task.find(function (err, tasks) {
+		Task.find().sort({ "position": 1 }).exec(function (err, tasks) {
 			if (err) return next(err);
 			res.render('tasks/index', {
 				title: 'Tasks',

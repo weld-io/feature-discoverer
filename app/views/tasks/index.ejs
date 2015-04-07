@@ -5,7 +5,15 @@
 <% if (tasks.length) { %>
 	<ul>
 		<% tasks.forEach(function (task) { %>
-			<li><%= task.title %></li>
+			<li>
+				<strong><%= task.name %>:</strong> <%= task.description %>
+				<% if (task.requiresTask) { %>
+					<br/>Requires: <%= task.requiresTask %>
+				<% } %>
+				<br/>Actions: [<% task.actions.forEach(function (action) { %>
+					<%= action.name %>,
+				<% }) %>]
+			</li>
 		<% }) %>
 	</ul>
 <% } %>

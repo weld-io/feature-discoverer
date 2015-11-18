@@ -4,6 +4,13 @@ API service supporting a tutorial/interactive guide that can help a user explore
 
 ![Feature Discoverer in-app example](example.png)
 
+## Core concepts
+
+* A **task** is a “mission” for the user to complete.
+* A task consists of one or multiple **actions**.
+* A task may **require another task** to be completed, before the new task is available to the user (see `requiresTask` property).
+* Tasks may belong to a **group**, if you want to have multiple tutorials.
+
 ## How to Run
 
 Just start with:
@@ -14,13 +21,6 @@ Just start with:
 	grunt
 
 Server will default to **http://localhost:3003**
-
-## Core concepts
-
-* A **task** is a “mission” for the user to complete.
-* A task consists of one or multiple **actions**.
-* A task may **require another task** to be completed, before the new task is available to the user (see `requiresTask` property).
-* Tasks may belong to a **group**, if you want to have multiple tutorials.
 
 ## API
 

@@ -6,6 +6,7 @@
 	<ul>
 		<% tasks.forEach(function (task) { %>
 			<li>
+				<em>Group: <%= task.group %></em><br/>
 				<strong><%= task.name %>:</strong> <%= task.description %>
 				<% if (task.requiresTask) { %>
 					<br/>Requires: <%= task.requiresTask %>

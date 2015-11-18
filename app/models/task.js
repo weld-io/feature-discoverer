@@ -11,18 +11,19 @@ var Action = new Schema({
 });
 
 var TaskSchema = new Schema({
+	group: String, // group id, default is undefined
 	name: { type: String, required: true, unique: true },
 	position: Number,
 	description: String,
 	dateCreated: { type: Date, default: Date.now, index: true },
 	actions: [Action],
 	requiresTask: String, // Name of other tasks
-	elementSelector: String
+	elementSelector: String // JQuery-style selector e.g. '#button-save'
 });
 
-TaskSchema.statics.getOrderedList = function(callback) {
+TaskSchema.statics.getOrderedList = function (group, callback) {
 	var Task = mongoose.model('Task');
-	Task.find(null, null, { sort: {position: 1, name: 1} }, callback);
+	Task.find({ group: group }, null, { sort: { position: 1, name: 1 } }, callback);
 };
 
 TaskSchema.methods.slug = function (task) {

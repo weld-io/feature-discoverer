@@ -15,15 +15,25 @@ Just start with:
 
 Server will default to **http://localhost:3003**
 
+## Core concepts
+
+* A **task** is a “mission” for the user to complete.
+* A task consists of one or multiple **actions**.
+* A task may **require another task** to be completed, before the new task is available to the user (see `requiresTask` property).
+* Tasks may belong to a **group**, if you want to have multiple tutorials.
+
 ## API
 
 ### Tasks that the user should accomplish
 
 Get the user's task list:
 
-	curl http://localhost:3003/api/tasks?user=USERID
+	curl http://localhost:3003/api/tasks?user=USERID&group=[GROUPNAME]
 
-(Note: `USERID` can be anything, e.g. an internal userId or a hashed email address)
+Notes:
+
+* `USERID` can be anything, e.g. an internal userId or a hashed email address.
+* `GROUPNAME` is used to separate sets of tutorials. Can be omitted, and will then return tasks with no group defined.
 
 Post a list of actions that the user has made:
 
@@ -31,9 +41,11 @@ Post a list of actions that the user has made:
 
 ### Administration: Master Task List
 
-See the master task list:
+Get the master task list:
 
 	curl http://localhost:3003/api/tasks
+
+(HTML version available at: `http://localhost:3003/tasks`)
 
 Create new tasks for users to do:
 

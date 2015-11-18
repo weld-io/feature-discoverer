@@ -17,7 +17,7 @@ module.exports = {
 		}
 		else {
 			// Full list
-			Task.getOrderedList(function (err, tasks) {
+			Task.getOrderedList(undefined, function (err, tasks) {
 				if (err) {
 					res.json(400, err);
 				}

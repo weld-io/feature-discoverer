@@ -45,7 +45,7 @@ module.exports = {
 			User.findOrCreate({ userId: req.query.user }, function (err, user, created) {
 				var resultList = [];
 				// Get the Master Task List
-				Task.getOrderedList(function (err, tasks) {
+				Task.getOrderedList(req.query.group, function (err, tasks) {
 					// For each Task in Master Task List
 					for (var t in tasks) {
 						var resultMasterTask = tasks[t].toObject();

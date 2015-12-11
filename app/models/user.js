@@ -2,12 +2,12 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var findOrCreate = require('mongoose-findorcreate')
+var findOrCreate = require('mongoose-findorcreate');
 var Task = mongoose.model('Task');
 
 var UserTask = new Schema({
 	name: { type: String, required: true },
-	progress: Number,
+	progress: Number, // = number of Actions completed
 	completed: { type: Boolean, default: false },
 	dateModified: { type: Date, default: Date.now },
 	originalTask: { type: Schema.Types.ObjectId, ref: 'Task' }

@@ -2,6 +2,13 @@
 
 API service supporting a tutorial/interactive guide that can help a user explore an application.
 
+Made by the team at **Weld** ([www.weld.io](https://www.weld.io?utm_source=github-feature-discoverer)), the code-free app and web creation tool:
+
+[![Weld](https://s3-eu-west-1.amazonaws.com/weld-social-and-blog/gif/weld_explained.gif)](https://www.weld.io?utm_source=github-feature-discoverer)
+
+
+## Screenshot
+
 ![Feature Discoverer in-app example](example.png)
 
 ## Core concepts
